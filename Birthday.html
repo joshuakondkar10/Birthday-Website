@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<title>Birthday Q&A ❤️</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(-45deg,#ff758c,#ff7eb3,#ff9a9e,#fad0c4);
+    background-size:400% 400%;
+    animation:bgMove 12s ease infinite;
+    overflow:hidden;    
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+}
+
+.container{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    width:350px;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+button{
+    margin:10px;
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.yes{
+    background:#ff4d6d;
+    color:white;
+}
+
+#no{
+    background:#ff4d6d;
+    color:white;}
+
+@keyframes bgMove{
+
+0%{
+background-position:0% 50%;
+}
+
+50%{
+background-position:100% 50%;
+}
+
+100%{
+background-position:0% 50%;
+}
+
+}
+
+.hearts::before,
+.hearts::after{
+
+content:"❤️ ❤️ 💖 💕 💗 ❤️ 💖";
+
+position:fixed;
+
+width:100%;
+
+left:0;
+
+bottom:-50px;
+
+font-size:30px;
+
+animation:float 12s linear infinite;
+
+opacity:.5;
+
+}
+
+.hearts::after{
+
+animation-delay:6s;
+
+}
+
+@keyframes float{
+
+from{
+
+transform:translateY(0);
+
+}
+
+to{
+
+transform:translateY(-120vh);
+
+}
+
+}
+
+h1{
+
+font-size:45px;
+
+color:white;
+
+text-shadow:
+
+0 0 10px hotpink,
+
+0 0 20px hotpink,
+
+0 0 40px deeppink;
+
+animation:pulse 2s infinite;
+
+}
+
+@keyframes pulse{
+
+50%{
+
+transform:scale(1.05);
+
+}
+
+}
+
+.container{
+
+background:rgba(255,255,255,.18);
+
+backdrop-filter:blur(20px);
+
+border:1px solid rgba(255,255,255,.3);
+
+box-shadow:0 20px 60px rgba(0,0,0,.3);
+
+width:500px;
+
+color:white;
+
+}
+
+.cake{
+
+animation:cakeUp 2s ease;
+
+}
+
+@keyframes cakeUp{
+
+0%{
+
+transform:translateY(250px);
+
+opacity:0;
+
+}
+
+100%{
+
+transform:translateY(0);
+
+opacity:1;
+
+}
+
+}
+
+.flame{
+
+animation:flicker .25s infinite alternate;
+
+filter:drop-shadow(0 0 15px gold);
+
+}
+
+@keyframes flicker{
+
+from{
+
+transform:scale(.9);
+
+}
+
+to{
+
+transform:scale(1.1);
+
+}
+
+}
+.balloon{
+
+position:fixed;
+
+bottom:-150px;
+
+font-size:70px;
+
+animation:balloon 12s linear infinite;
+
+}
+
+@keyframes balloon{
+
+to{
+
+transform:translateY(-130vh);
+
+    }
+}
+#options{
+    margin-top:20px;
+}
+
+
+
+.optionBtn{
+    display:block;
+    width:100%;
+    margin:12px 0;
+    padding:15px;
+    font-size:18px;
+    border:none;
+    border-radius:15px;
+    cursor:pointer;
+    background:#ff4d6d;
+    color:white;
+    transition:.3s;
+}
+
+.optionBtn:hover{
+    transform:scale(1.05);
+    background:#ff2d55;
+}
+
+</style>
+</head>
+
+<body>
+<div class="balloon" style="left:8%">🎈</div>
+<div class="balloon" style="left:28%;animation-delay:2s">🎈</div>
+<div class="balloon" style="left:52%;animation-delay:4s">🎈</div>
+<div class="balloon" style="left:80%;animation-delay:6s">🎈</div>    
+
+<div class="hearts"></div>    
+
+<div class="container">
+
+    <h2 id="question">Hi Princess ❤️</h2>
+
+    <p id="text">
+        Ready for a few questions?
+    </p>
+
+    <div id="options">
+        <button class="yes" onclick="nextQuestion()">Start ❤️</button>
+    </div>
+
+</div>
+</div>
+
+<script>
+
+const questions = [
+
+{
+question:"Do you love me? ❤️",
+options:[
+"Yes ❤️",
+"Of Course ❤️"
+]
+},
+
+{
+question:"What do you think about me? 🥰",
+options:[
+"Tell Me ❤️"
+]
+},
+
+{
+question:"What do you love most about me? 💖",
+options:[
+"Caring Heart ❤️",
+"Attention 🥰",
+"Loyal 🤝",
+"Trust 💎"
+]
+},
+
+{
+question:"What is your favorite memory of us? 💕",
+options:[
+"Airoli 🌆",
+"Vashi 🌉"
+]
+},
+
+{
+question:"Will you always choose me no matter what? ❤️",
+options:[
+"Always ❤️",
+"Forever 💍"
+]
+},
+
+{
+question:"Are you ready for your birthday surprise? 🎁",
+options:[
+"YES 🎉"
+]
+}
+
+];
+
+let index=-1;
+
+function nextQuestion(){
+
+index++;
+
+if(index>=questions.length){
+
+showWish();
+
+return;
+
+}
+
+let q=questions[index];
+
+document.getElementById("question").innerHTML=q.question;
+
+document.getElementById("text").innerHTML="";
+
+let html="";
+
+q.options.forEach(function(option){
+
+html+=`
+<button class="optionBtn" onclick="nextQuestion()">
+${option}
+</button>
+`;
+
+});
+
+document.getElementById("options").innerHTML=html;
+
+}
+
+
+    function showWish(){
+
+confetti({
+particleCount:250,
+spread:180,
+origin:{y:.6}
+});
+
+document.querySelector(".container").innerHTML=`
+
+<h1>🎉 Happy Birthday My Love ❤️</h1>
+
+<p id="letter"></p>
+
+<div style="font-size:130px;margin:20px 0;">
+🎂
+</div>
+
+<h2>I Love You Forever ❤️</h2>
+
+`;
+
+const text=
+`You make every day brighter just by being in it.
+
+I hope this year brings you endless happiness, beautiful memories, and lots of love.
+
+Thank you for always being there for me.
+
+Happy Birthday Princess ❤️`;
+
+let i=0;
+
+function type(){
+
+if(i<text.length){
+
+document.getElementById("letter").innerHTML+=text.charAt(i);
+
+i++;
+
+setTimeout(type,35);
+
+}
+
+}
+
+type();
+
+}
+</script>
+
+</body>
+</html>
